@@ -11,6 +11,7 @@ def arcsin(x):
         a radian as a float.
 
     """
+    arcsin_sqrt =0
     for n in range (10):
         n+=1
         top=(2*x)**(2*n)

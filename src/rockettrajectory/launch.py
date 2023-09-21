@@ -1,5 +1,5 @@
 import numpy as np
-import arcsin as arc
+from rockettrajectory import arcsin as arc
 
 def launch_angle(ve_v0, alpha):
     """launch angle from vertical given velocity ratio and target altitude ratio
@@ -24,7 +24,7 @@ def launch_angle_range(ve_v0, alpha, tol_alpha):
     """
     min_alpha = (1 - tol_alpha)*alpha
     max_alpha = (1 + tol_alpha)*alpha
-    math_temp=1 - ((min_alpha/1+min_alpha)*vev0**2))
+    math_temp=1 - ((min_alpha/1+min_alpha)*ve_v0**2)
     if math_tem>0:
         sin_phi=(1+min_alpha)*np.sqrt(math_temp)
         min_angle=arcsin(sin_phi)
@@ -32,7 +32,7 @@ def launch_angle_range(ve_v0, alpha, tol_alpha):
             max_angle=none
     else:
         max_angle = none
-    math_temp=1 - ((max_alpha/1+max_alpha)*vev0**2))
+    math_temp=1 - ((max_alpha/1+max_alpha)*vev0**2)
     if math_temp>0:
         sin_phi=(1+max_alpha)*np.sqrt(math_temp)
     return max_angle, min_angle
