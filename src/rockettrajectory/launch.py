@@ -44,20 +44,68 @@ def launch_angle_range(ve_v0, alpha, tol_alpha):
     else:
         min_angle=None
         sin_phi2=0
-    return max_angle, min_angle, sin_phi1, sin_phi2
+    return max_angle, min_angle
 
-def min_altitude_ratio(ve_v0):
-    pass
+def equation_17(ve_v0,alpha):
+    """gives the partial dirivatives for equation 17
+    input float ve_v0 and alpha
+    output partial derivative with respect to both
+    pv palpha
+    """
+    pv= (-alpha*ve_v0)/(np.sqrt(1-((alpha*ve_v0)/(alpha+1))))
 
-def max_altitude_ratio(ve_v0):
-    pass
+    palpha = (2-ve_v0**2 - 2*alpha*(-1+ve_v0**2))/(2*(1+alpha)*np.sqrt(((1+alpha)-alpha*ve_v0**2)/(1+alpha)))
+    return pv, palpha
 
-def min_velocity_ratio(alpha):
+def uncertainty(ve_v0,alpha,delta_ve_v0,delta_alpha):
+    """computes the error in sin_phi and the condition number
+    input floats ve_v0,alpha,delta_ve_v0,delta_alpha
+    outputs
+    """
+    pv,palpha = equation_17(ve_v0,alpha)
+    delta_sin_phi=abs(palpha)*delta_alpha+abs(pv)*delta_ve_v0
+
+    norm=np.sqrt(ve_v0**2+alpha**2)
+    jacob=np.sqrt(palpha**2+pv**2)
+    condition_number=(norm*jacob)/launch_angle(ve_v0, alpha)
+    return condition_number
+
+def min_altitude_ratio(alpha,angle):
+    index = np.where(angle==None)
+    for j in range(len(index)):
+        alpha[index[j]]=None
+    xi=np.argmin(alpha)
+    x=alpha[xi]
+    angle1 = angle[xi]
+    return x,angle1
+
+def max_altitude_ratio(alpha,angle):
+    index = np.where(angle==None)
+    for j in range(len(index)):
+        alpha[index[j]]=None
+    xi=np.argmax(alpha)
+    x=alpha[xi]
+    angle1 = angle[xi]
+    return x,angle1
+
+def min_velocity_ratio(v,angle):
     """Computes minimum possible velocity ratio for a given target peak altitude.
     """
-    pass
+    index = np.where(angle==None)
+    for j in range(len(index)):
+        v[index[j]]=None
+    xi=np.argmin(v)
+    x=v[xi]
+    angle1 = angle[xi]
+    return x,angle1
 
-def min_velocity_ratio(alpha):
+def max_velocity_ratio(v,angle):
     """Computes minimum possible velocity ratio for a given target peak altitude.
     """
-    pass
+    index = np.where(angle==None)
+    for j in range(len(index)):
+        v[index[j]]=None
+    xi=np.argmin(v)
+    x=v[xi]
+    angle1 = angle[xi]
+    return x,angle1

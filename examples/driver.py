@@ -10,16 +10,11 @@ def main ():
 
     min_lnch_angles= []
     max_lnch_angles= []
-    phi1 =[]
-    phi2 =[]
 
     for alpha in range_alpha:
         x = lnch.launch_angle_range(ve_v0,alpha, tol_alpha)
         max_lnch_angles.append(x[0])
         min_lnch_angles.append(x[1])
-        phi1.append(x[2])
-        phi2.append(x[3])
-    print (f'1 {list(phi1)},2 {list(phi2)}')
 
     plt.figure(1)
     plt.plot(range_alpha, min_lnch_angles, label = 'minimum launch angles')
@@ -46,9 +41,6 @@ def main ():
         x = lnch.launch_angle_range(v,alpha, tol_alpha)
         max_lnch_angles1.append(x[0])
         min_lnch_angles1.append(x[1])
-        phi1.append(x[2])
-        phi2.append(x[3])
-    print (f'3 {list(max_lnch_angles1)},4 {list(min_lnch_angles1)}')
 
     plt.figure(2)
     plt.plot(v_range, min_lnch_angles1, label = 'minimum launch angles')
@@ -58,6 +50,18 @@ def main ():
     plt.xlabel("Escape Velocity to Terminal Velocity Ratio")
     plt.title("Maximum and Minimum Launch Angles for a Range of Velocity Values")
     plt.savefig("Launch_Velocity_Range")
+
+    max_q2,min_q2= lnch.launch_angle_range(2,0.25,0.02)
+
+    v_error,alpha_error= lnch.equation_17(2,0.25)
+    v_error =abs(v_error)* 0.05
+    alpha_error =abs(alpha_error)* 0.02
+    alpha_max,amax_angle= lnch.max_altitude_ratio(range_alpha,max_lnch_angles)
+    v_max,vmax_angle= lnch.max_velocity_ratio(v_range,max_lnch_angles1)
+
+    print(f'Question 2:   max {max_q2} \n              min {min_q2} \nQuestion 3:max alpha {alpha_max} angle {amax_angle}\nQuestion 4: max velocity {v_max} angle {vmax_angle}\nQuestion 5: Error in ve_v0 {v_error}. Error in alpha {alpha_error}\nUncertanty for fun {lnch.uncertainty(2,0.25,0.05,0.02)}')
+
+
 
 if __name__ == "__main__":
     main()
