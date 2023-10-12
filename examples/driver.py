@@ -26,7 +26,7 @@ def main ():
     plt.savefig("Launch_Alpha_Range")
 
     #make a range of velocities
-    v_range = np.arange(1.22,6.21,0.25)
+    v_range = np.arange(0.02,9.21,0.25)
     #set tolerance and alpha to be held constant
     tol_alpha= 0.04
     alpha = 0.25
@@ -57,9 +57,10 @@ def main ():
     v_error =abs(v_error)* 0.05
     alpha_error =abs(alpha_error)* 0.02
     alpha_max,amax_angle= lnch.max_altitude_ratio(range_alpha,max_lnch_angles)
-    v_min,vmin_angle= lnch.min_velocity_ratio(v_range,min_lnch_angles1)
+    v_min,vmax_angle= lnch.min_velocity_ratio(v_range,max_lnch_angles1)
+    v_max,vmin_angle= lnch.max_velocity_ratio(v_range,min_lnch_angles1)
 
-    print(f'Question 2:   max {max_q2} \n              min {min_q2} \nQuestion 3:max alpha {alpha_max} angle {amax_angle}\nQuestion 4: min velocity {v_min} angle {vmin_angle}\nQuestion 5: Error in ve_v0 {v_error}. Error in alpha {alpha_error}\nUncertanty for fun {lnch.uncertainty(2,0.25,0.05,0.02)}')
+    print(f'Question 2:   max {max_q2} \n              min {min_q2} \nQuestion 3:max alpha {alpha_max} angle {amax_angle}\nQuestion 4: min velocity {v_min} angle {vmax_angle}\n            max velocity {v_max} angle {vmin_angle}\nQuestion 5: Error in ve_v0 {v_error}. Error in alpha {alpha_error}\nUncertanty for fun cn: {lnch.uncertainty(2,0.25,0.05,0.02)}')
 
 
 

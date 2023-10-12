@@ -11,7 +11,9 @@ def arcsin(x):
         a radian as a float.
 
     """
-    tol = 1.0e-16
+    if x==0 :
+        return 0
+    tol = 0.5e-5
     x = float(x)
     eps_a = 2*tol
     n=1
@@ -20,7 +22,7 @@ def arcsin(x):
     sum =0.0
     term=0.0
     while eps_a > tol:
-        term=((2*x)**(2*n))/((n**2)*((fact_2n)/(fact_n**2)))
+        term = ((2*x)**(2*n)) / ((n**2)*((fact_2n)/((fact_n)**2)))
         sum += term
         eps_a = np.abs(term/sum)
         n += 1

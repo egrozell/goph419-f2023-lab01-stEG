@@ -27,20 +27,25 @@ def launch_angle_range(ve_v0, alpha, tol_alpha):
     temp=1 - ((min_alpha/(1+min_alpha))*ve_v0**2)
     if temp>0:
         sin_phi=(1+min_alpha)*np.sqrt(temp)
-        sin_phi1=sin_phi
-        max_angle=arc.arcsin(sin_phi)
-        if max_angle>np.pi/2 or max_angle<0:
+        if sin_phi <= 1:
+            max_angle=arc.arcsin(sin_phi)
+            if max_angle>np.pi/2 or max_angle<0:
+                max_angle=None
+        else:
             max_angle=None
+
     else:
         max_angle = None
         sin_phi1=0
     temp=1 - ((max_alpha/(1+max_alpha))*ve_v0**2)
     if temp>0:
         sin_phi=(1+max_alpha)*np.sqrt(temp)
-        sin_phi2=sin_phi
-        min_angle=arc.arcsin(sin_phi)
-        if min_angle>np.pi/2 or min_angle<0:
-            min_angle = None
+        if sin_phi <=1:
+            min_angle=arc.arcsin(sin_phi)
+            if min_angle>np.pi/2 or min_angle<0:
+                min_angle = None
+        else:
+            min_angle=None
     else:
         min_angle=None
         sin_phi2=0
@@ -71,18 +76,20 @@ def uncertainty(ve_v0,alpha,delta_ve_v0,delta_alpha):
     return condition_number
 
 def min_altitude_ratio(alpha,angle):
-    index = np.where(angle==None)
+    index = [i for i, value in enumerate(angle) if value == None]
     for j in range(len(index)):
-        alpha[index[j]]=None
+        x = index[j]
+        np.put(alpha,x,1000)
     xi=np.argmin(alpha)
     x=alpha[xi]
     angle1 = angle[xi]
     return x,angle1
 
 def max_altitude_ratio(alpha,angle):
-    index = np.where(angle==None)
+    index = [i for i, value in enumerate(angle) if value == None]
     for j in range(len(index)):
-        alpha[index[j]]=None
+        x = index[j]
+        np.put(alpha,x,-1)
     xi=np.argmax(alpha)
     x=alpha[xi]
     angle1 = angle[xi]
@@ -91,9 +98,10 @@ def max_altitude_ratio(alpha,angle):
 def min_velocity_ratio(v,angle):
     """Computes minimum possible velocity ratio for a given target peak altitude.
     """
-    index = np.where(angle==None)
+    index = [i for i, value in enumerate(angle) if value == None]
     for j in range(len(index)):
-        v[index[j]]=None
+        x = index[j]
+        np.put(v,x,1000)
     xi=np.argmin(v)
     x=v[xi]
     angle1 = angle[xi]
@@ -102,10 +110,11 @@ def min_velocity_ratio(v,angle):
 def max_velocity_ratio(v,angle):
     """Computes minimum possible velocity ratio for a given target peak altitude.
     """
-    index = np.where(angle==None)
+    index = [i for i, value in enumerate(angle) if value == None]
     for j in range(len(index)):
-        v[index[j]]=None
-    xi=np.argmin(v)
+        x = index[j]
+        np.put(v,x,-1)
+    xi=np.argmax(v)
     x=v[xi]
     angle1 = angle[xi]
     return x,angle1
