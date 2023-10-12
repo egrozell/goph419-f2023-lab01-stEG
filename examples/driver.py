@@ -57,9 +57,9 @@ def main ():
     v_error =abs(v_error)* 0.05
     alpha_error =abs(alpha_error)* 0.02
     alpha_max,amax_angle= lnch.max_altitude_ratio(range_alpha,max_lnch_angles)
-    v_max,vmax_angle= lnch.max_velocity_ratio(v_range,max_lnch_angles1)
+    v_min,vmin_angle= lnch.min_velocity_ratio(v_range,min_lnch_angles1)
 
-    print(f'Question 2:   max {max_q2} \n              min {min_q2} \nQuestion 3:max alpha {alpha_max} angle {amax_angle}\nQuestion 4: max velocity {v_max} angle {vmax_angle}\nQuestion 5: Error in ve_v0 {v_error}. Error in alpha {alpha_error}\nUncertanty for fun {lnch.uncertainty(2,0.25,0.05,0.02)}')
+    print(f'Question 2:   max {max_q2} \n              min {min_q2} \nQuestion 3:max alpha {alpha_max} angle {amax_angle}\nQuestion 4: min velocity {v_min} angle {vmin_angle}\nQuestion 5: Error in ve_v0 {v_error}. Error in alpha {alpha_error}\nUncertanty for fun {lnch.uncertainty(2,0.25,0.05,0.02)}')
 
 
 
